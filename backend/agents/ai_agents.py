@@ -14,21 +14,29 @@ from models.vector_store import semantic_search
 # Load .env before initializing the client
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 
 def _chat(system: str, user: str, temperature: float = 0.4) -> str:
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
-        temperature=temperature,
-        max_tokens=1000,
-    )
-    return response.choices[0].message.content
+    prompt = f"""
+    SYSTEM:
+    {system}
 
+    USER:
+    {user}
+    """
+
+    response = model.generate_content(
+        prompt,
+        generation_config={
+            "temperature": temperature,
+            "max_output_tokens": 1000,
+        }
+    )
+
+    return response.text
 
 def _parse_json(raw: str):
     try:
