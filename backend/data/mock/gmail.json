@@ -1,0 +1,32 @@
+[
+  {
+    "id": "email_001",
+    "source": "gmail",
+    "from": "sarah.jones@client-alpha.com",
+    "to": "abhishek@company.com",
+    "subject": "RE: Delivery Timeline — Very Concerned",
+    "body": "Abhishek, we were expecting the API integration live by last Friday. This is the second delay and our board is asking questions. We need a concrete date by EOD today or we will escalate.",
+    "timestamp": "2024-01-15T09:23:00",
+    "tags": ["client", "urgent", "project-alpha"]
+  },
+  {
+    "id": "email_002",
+    "source": "gmail",
+    "from": "rahul.dev@company.com",
+    "to": "abhishek@company.com",
+    "subject": "API Scaling Issue — need your call",
+    "body": "Hey, found a serious bottleneck in the payment gateway under load. Current architecture won't handle 200+ concurrent users. Opened a Jira ticket. Need 3 more days to refactor. This directly affects Client Alpha delivery.",
+    "timestamp": "2024-01-15T08:10:00",
+    "tags": ["engineering", "blocker", "project-alpha"]
+  },
+  {
+    "id": "email_003",
+    "source": "gmail",
+    "from": "investor@ventures.com",
+    "to": "abhishek@company.com",
+    "subject": "Pre-meeting checklist for Thursday",
+    "body": "Looking forward to Thursday. Please bring updated revenue metrics deck, Q4 actuals vs projection, and 18-month roadmap. Our technical partner will join to review architecture.",
+    "timestamp": "2024-01-14T16:45:00",
+    "tags": ["investor", "meeting", "important"]
+  }
+]

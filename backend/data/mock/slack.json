@@ -1,0 +1,38 @@
+[
+  {
+    "id": "slack_001",
+    "source": "slack",
+    "channel": "#backend-issues",
+    "user": "rahul.dev",
+    "message": "Found the root cause — DB connection pool maxing out at peak load. Related to ORM config changed last sprint. Jira #231 has details.",
+    "timestamp": "2024-01-15T10:15:00",
+    "tags": ["engineering", "blocker", "project-alpha"]
+  },
+  {
+    "id": "slack_002",
+    "source": "slack",
+    "channel": "#backend-issues",
+    "user": "priya.backend",
+    "message": "Agreed with Rahul. Tried a quick fix but needs proper refactor. Honestly concerned we won't make Friday. @abhishek should know about this.",
+    "timestamp": "2024-01-15T10:32:00",
+    "tags": ["engineering", "risk", "project-alpha"]
+  },
+  {
+    "id": "slack_003",
+    "source": "slack",
+    "channel": "#general",
+    "user": "abhishek",
+    "message": "Team, finish the revenue metrics deck by Wednesday. Investor meeting is Thursday 10am. Need Q4 actuals, projections and roadmap slide.",
+    "timestamp": "2024-01-14T11:00:00",
+    "tags": ["investor", "deadline", "commitment"]
+  },
+  {
+    "id": "slack_004",
+    "source": "slack",
+    "channel": "#project-alpha",
+    "user": "abhishek",
+    "message": "Sarah from Client Alpha needs confirmation today on delivery date. Let's finish the API fix — let's finish this by Friday.",
+    "timestamp": "2024-01-15T09:45:00",
+    "tags": ["client", "deadline", "commitment"]
+  }
+]
