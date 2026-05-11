@@ -68,7 +68,7 @@ export default function AskPage() {
             ) : (
               <div className="card px-5 py-4 max-w-2xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono" style={{ color: '#818cf8' }}>NeuroSync</span>
+                  <span className="text-xs font-mono" style={{ color: '#818cf8' }}>MindMesh</span>
                   {msg.items > 0 && (
                     <span className="text-xs px-1.5 py-0.5 rounded font-mono"
                       style={{ background: 'rgba(99,102,241,0.15)', color: '#818cf8' }}>

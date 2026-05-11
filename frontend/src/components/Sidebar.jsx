@@ -9,7 +9,7 @@ export default function Sidebar({ active, setActive }) {
   return (
     <div className="w-56 h-screen flex flex-col border-r border-indigo-900/30" style={{ background: '#0f1629' }}>
       <div className="p-5 border-b border-indigo-900/30">
-        <div className="text-lg font-semibold glow-text" style={{ color: '#a5b4fc' }}>NeuroSync AI</div>
+        <div className="text-lg font-semibold glow-text" style={{ color: '#a5b4fc' }}>MindMesh</div>
         <div className="text-xs mt-0.5" style={{ color: '#475569' }}>Cognitive Operating System</div>
       </div>
 

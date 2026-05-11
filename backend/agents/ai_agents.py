@@ -1,42 +1,29 @@
-"""
-AI Agents powered by GPT-4o.
-Three agents: Briefing, Ask Brain, Action Extraction.
-"""
 import os
 import json
 import re
 from dotenv import load_dotenv
-from openai import OpenAI
+from groq import Groq
 from typing import List, Dict, Any
 from models.graph_engine import load_all_data, build_context_graph, get_connected_context
 from models.vector_store import semantic_search
 
-# Load .env before initializing the client
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-model = genai.GenerativeModel("gemini-2.0-flash")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
 def _chat(system: str, user: str, temperature: float = 0.4) -> str:
-    prompt = f"""
-    SYSTEM:
-    {system}
-
-    USER:
-    {user}
-    """
-
-    response = model.generate_content(
-        prompt,
-        generation_config={
-            "temperature": temperature,
-            "max_output_tokens": 1000,
-        }
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        temperature=temperature,
+        max_tokens=1000,
     )
+    return response.choices[0].message.content
 
-    return response.text
 
 def _parse_json(raw: str):
     try:
@@ -48,12 +35,10 @@ def _parse_json(raw: str):
         return None
 
 
-# ── Agent 1: Daily Briefing ──────────────────────────────────────────────────
-
 def briefing_agent() -> Dict[str, Any]:
     all_data = load_all_data()
-    system = """You are NeuroSync AI — an intelligent second brain for knowledge workers.
-Analyze all provided data and return ONLY this JSON structure (no markdown):
+    system = """You are MindMesh AI — an intelligent second brain for knowledge workers.
+Analyze all provided data and return ONLY this JSON structure (no markdown, no backticks):
 {
   "greeting": "Good morning, Abhishek",
   "summary": "One sentence overview of the day",
@@ -71,8 +56,6 @@ Analyze all provided data and return ONLY this JSON structure (no markdown):
     return _parse_json(raw) or {"error": "Parse failed", "raw": raw}
 
 
-# ── Agent 2: Ask Your Brain ──────────────────────────────────────────────────
-
 def ask_brain_agent(question: str) -> Dict[str, Any]:
     search_results = semantic_search(question, n_results=6)
     G = build_context_graph()
@@ -82,12 +65,15 @@ def ask_brain_agent(question: str) -> Dict[str, Any]:
         for item in get_connected_context(search_results[0]["id"], G):
             context_items.setdefault(item.get("id"), item)
 
-    system = """You are NeuroSync AI. Answer questions using the user's work data.
+    system = """You are MindMesh AI. Answer questions using the user's work data.
 Be specific — name people, reference actual messages and tickets.
 Start with 2-3 direct sentences, then bullet points if needed.
 Always mention which sources you used (e.g. 'Based on Rahul's Slack message and Jira #231...')."""
 
-    answer = _chat(system, f"Question: {question}\n\nData:\n{json.dumps(list(context_items.values()), indent=2)}")
+    answer = _chat(
+        system,
+        f"Question: {question}\n\nData:\n{json.dumps(list(context_items.values()), indent=2)}"
+    )
     return {
         "question": question,
         "answer": answer,
@@ -96,12 +82,10 @@ Always mention which sources you used (e.g. 'Based on Rahul's Slack message and 
     }
 
 
-# ── Agent 3: Action Extraction ───────────────────────────────────────────────
-
 def action_extraction_agent() -> List[Dict[str, Any]]:
     all_data = load_all_data()
     system = """Extract all commitments, deadlines, and pending tasks from the messages.
-Return ONLY a JSON array (no markdown):
+Return ONLY a JSON array (no markdown, no backticks):
 [
   {
     "action": "what needs to be done",
